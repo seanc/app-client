@@ -20,8 +20,14 @@
     "url": "git+https://github.com/soundcove/app-client.git"
   },
   "dependencies": {
+    "css-loader": "^0.23.0",
     "jquery": "^2.1.4",
-    "vue": "^1.0.10"
+    "style-loader": "^0.13.0",
+    "vue": "^1.0.10",
+    "vue-hot-reload-api": "^1.2.2",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^7.2.0",
+    "vue-router": "^0.7.7"
   },
   "devDependencies": {
     "app-server": "soundcove/app-server",

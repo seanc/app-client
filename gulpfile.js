@@ -12,13 +12,21 @@ const gulp = require('gulp'),
       dist = 'dist/';
 
 let config = {
-  output:{ filename:'app.js' },
-  cache:false,
-  module:{ loaders:[
+  entry: {
+    app: ['./scripts/app.js']
+  },
+  output: { filename:'app.js' },
+  cache: false,
+  module: {loaders:[
     {
-      loader:'babel', test:/\.jsx?$/,
-      exclude:/(node_modules|dist)/,
-      query:{ presets:[ 'es2015' ], plugins:[ 'transform-runtime' ] }
+      loader: 'babel',
+      test:/\.jsx?$/,
+      exclude: /(node_modules|dist)/,
+      query: { presets:[ 'es2015' ], plugins:[ 'transform-runtime' ] }
+    },
+    {
+      loader: 'vue',
+      test: /\.vue$/
     }
   ]}
 };
@@ -69,9 +77,16 @@ gulp.task('minify:html', [ 'build:swig' ], () =>
     .pipe(gulp.dest('dist'))
 );
 
+// Vue
+gulp.task('build:vue', ['build:javascript'], () =>
+   gulp.src('views/components/**')
+    .pipe(gulp.dest(dist + 'components'))
+);
+
 // Build
 gulp.task('build', [
   'build:swig',
+  'build:vue',
   'build:stylus',
   'build:javascript'
 ]);
@@ -89,7 +104,8 @@ gulp.task('default', [ 'build' ]);
 
 // Watch
 gulp.task('watch', [ 'build' ], function(){
-  gulp.watch('views/**', [ 'build:swig' ]);
+  gulp.watch('views/**.html', [ 'build:swig' ]);
+  gulp.watch('views/components/**', ['build:vue']);
   gulp.watch('styles/**', [ 'build:stylus' ]);
   gulp.watch('scripts/**', [ 'build:javascript' ]);
 
